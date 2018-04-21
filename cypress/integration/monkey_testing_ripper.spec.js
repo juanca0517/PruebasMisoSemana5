@@ -18,16 +18,22 @@ function randomTest(monkeysLeft) {
       var testEjec = getRandomInt(1,4);
       switch(testEjec){
         case 1:
-          cy.get('a').then($links => {
+        try {
+        cy.get('a').then($links => {
                 var randomLink = $links.get(getRandomInt(0, $links.length));
                 if(!Cypress.Dom.isHidden(randomLink)) {
                     cy.wrap(randomLink).click({force: true});
                     monkeysLeft = monkeysLeft - 1;
                 }
                 setTimeout(randomTest, 2000, monkeysLeft);
-          });
-          break;
+            });
+            }
+        catch(err) {
+         setTimeout(randomTest, 2000, monkeysLeft);
+        }
+        break;
         case 2:
+        try{
             var randomString = function(length) {
             var text = "";
             var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -53,7 +59,13 @@ function randomTest(monkeysLeft) {
                     setTimeout(randomTest, 2000, monkeysLeft);
                 });
             }
+            }
+            catch{
+            setTimeout(randomTest, 2000, monkeysLeft);
+            }
+            break;
         case 3:
+        try{
           cy.get('select').then($Selects => {
               var randomSelect = $Selects.get(getRandomInt(0, $Selects.length));
               if(!Cypress.Dom.isHidden(randomSelect)) {
@@ -65,8 +77,12 @@ function randomTest(monkeysLeft) {
               }
               setTimeout(randomTest, 2000, monkeysLeft);
           });
+          }
+          catch{
+          setTimeout(randomTest, 2000, monkeysLeft);}
           break;
         case 4:
+        try{
           cy.get('button').then($Buttons => {
               var randomButton = $Buttons.get(getRandomInt(0, $Buttons.length));
               if(!Cypress.Dom.isHidden(randomButton)) {
@@ -75,6 +91,10 @@ function randomTest(monkeysLeft) {
               }
               setTimeout(randomTest, 2000, monkeysLeft);
           });
+          }
+          catch{
+          setTimeout(randomTest, 2000, monkeysLeft);
+          }
           break;
         }
     }
